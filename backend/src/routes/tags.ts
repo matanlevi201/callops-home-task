@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { z } from "zod";
 import { validateRequest } from "../middlewares/validate-request";
+import { createTag, deleteTag, getTags, updateTag } from "../controllers/tags";
 
 const router = Router();
 
@@ -8,9 +9,9 @@ const CreateTagSchema = z.object({
   name: z.string(),
 });
 
-router.get("/");
-router.post("/", validateRequest(CreateTagSchema));
-router.put("/:id", validateRequest(CreateTagSchema.partial()));
-router.delete("/:id");
+router.get("/", getTags);
+router.post("/", validateRequest(CreateTagSchema), createTag);
+router.put("/:id", validateRequest(CreateTagSchema.partial()), updateTag);
+router.delete("/:id", deleteTag);
 
 export { router as TagsRouter };
