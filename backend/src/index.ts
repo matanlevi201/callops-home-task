@@ -1,20 +1,14 @@
 import "dotenv/config";
-import path from "path";
-import express from "express";
+import { app } from "./app";
 import { env } from "./env";
 
-const app = express();
+const init = async () => {
+  const port = env.PORT || 1000;
+  app.listen(port, () => {
+    console.log(`Listening on port: ${port}`);
+  });
+};
 
-const staticPath = path.join(__dirname, "..", "../frontend/dist");
-app.use(express.static(staticPath));
-
-app.all("/api/*", async () => {
-  throw new Error("Not Found");
+init().catch(async (error) => {
+  console.log(error);
 });
-
-app.get("/*", (_, res) => {
-  res.sendFile(path.resolve(staticPath, "index.html"));
-});
-
-const port = env.PORT || 1000;
-app.listen(port, () => console.log(`Listening on port: ${port}`));
