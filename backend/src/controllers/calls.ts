@@ -40,6 +40,31 @@ export const createCall = async (req: Request, res: Response) => {
 
 export const updateCall = async (req: Request, res: Response) => {
   const { id: callId } = req.params;
+  const {
+    title: newTitle,
+    description: newDescription,
+    tagIds: newTagIds,
+  } = req.body;
+  const existingCall = await prisma.call.findUnique({ where: { id: callId } });
+  if (!existingCall) {
+    throw new NotFoundError();
+  }
+  await prisma.$transaction(async (tx) => {
+    await tx.call.update({
+      where: { id: callId },
+      data: {
+        title: newTitle,
+        description: newDescription,
+      },
+    });
+    await tx.callTag.deleteMany({ where: { callId } });
+    await tx.callTag.createMany({
+      data: newTagIds.map((tagId: string) => ({
+        callId,
+        tagId,
+      })),
+    });
+  });
   res.status(204).send();
 };
 

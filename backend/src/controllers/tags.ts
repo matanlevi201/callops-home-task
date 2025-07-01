@@ -20,6 +20,14 @@ export const createTag = async (req: Request, res: Response) => {
 export const updateTag = async (req: Request, res: Response) => {
   const { id: tagId } = req.params;
   const { name } = req.body;
+  const existingTag = await prisma.tag.findUnique({ where: { id: tagId } });
+  if (!existingTag) {
+    throw new NotFoundError();
+  }
+  await prisma.tag.update({
+    where: { id: tagId },
+    data: { name },
+  });
   res.status(204).send();
 };
 
