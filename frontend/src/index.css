@@ -123,3 +123,21 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* CallOps brand gradient utilities */
+@layer utilities {
+  .bg-callops-gradient {
+    background: linear-gradient(135deg, #4a9b29 0%, #97dd7a 100%);
+  }
+
+  .bg-callops-gradient-secondary {
+    background: linear-gradient(135deg, #66b247 0%, #98de7d 100%);
+  }
+
+  .text-callops-gradient {
+    background: linear-gradient(135deg, #4a9b29 0%, #97dd7a 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
