@@ -5,6 +5,7 @@ const envSchema = z.object({
   NODE_ENV: z
     .enum(["development", "production", "test"])
     .default("development"),
+  FRONT_END_URL: z.string(),
 });
 
 export const env = (() => {

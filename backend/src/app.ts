@@ -5,10 +5,18 @@ import { NotFoundError } from "./errors";
 import { errorHandler } from "./middlewares/error-handler";
 import { CallsRouter } from "./routes/calls";
 import { TagsRouter } from "./routes/tags";
+import { env } from "./env";
+import cors from "cors";
 
 const app = express();
 app.use(json());
-
+app.use(
+  cors({
+    origin: env.FRONT_END_URL,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
 const staticPath = path.join(__dirname, "..", "../frontend/dist");
 app.use(express.static(staticPath));
 
