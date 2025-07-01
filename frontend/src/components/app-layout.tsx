@@ -13,7 +13,7 @@ function AppLayout() {
   console.log("AppLayout");
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="h-screen flex flex-col overflow-hidden">
       <div className="border-b">
         <div className="container max-w-7xl mx-auto flex items-center h-16 px-4">
           <div className="h-full text-sidebar-primary-foreground flex mr-2 items-center justify-center rounded-lg">
