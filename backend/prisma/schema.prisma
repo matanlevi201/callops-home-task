@@ -30,11 +30,12 @@ model Call {
 }
 
 model Tag {
-  id        String    @id @default(uuid())
-  name      String    @unique
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  callTags  CallTag[]
+  id                String             @id @default(uuid())
+  name              String             @unique
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  callTags          CallTag[]
+  suggestedTaskTags SuggestedTaskTag[]
 }
 
 model CallTag {
@@ -56,4 +57,24 @@ model Task {
 
   call   Call   @relation(fields: [callId], references: [id])
   callId String
+}
+
+model SuggestedTask {
+  id          String     @id @default(uuid())
+  description String     @unique
+  status      TaskStatus @default(OPEN)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  tags SuggestedTaskTag[]
+}
+
+model SuggestedTaskTag {
+  id              String        @id @default(uuid())
+  tag             Tag           @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  suggestedTask   SuggestedTask @relation(fields: [suggestedTaskId], references: [id], onDelete: Cascade)
+  tagId           String
+  suggestedTaskId String
+
+  @@unique([suggestedTaskId, tagId])
 }
