@@ -1,5 +1,11 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { PhoneIcon, PlusIcon, XCircleIcon } from "lucide-react";
+import {
+  ClipboardListIcon,
+  PhoneIcon,
+  PlusIcon,
+  TagsIcon,
+  XCircleIcon,
+} from "lucide-react";
 import { format } from "date-fns";
 import type { Call } from "@/api/calls";
 import { Badge } from "@/components/ui/badge";
@@ -8,10 +14,14 @@ import useCallsMutations from "@/hooks/use-calls-mutations";
 import Loader from "@/components/loader";
 import { Button } from "./ui/button";
 import { useModalStore } from "@/stores/use-modal-store";
+import TaskStatusInput from "@/components/task-status-input";
+import useTasksMutations from "@/hooks/use-tasks-mutations";
+import type { TaskStatus } from "@/api/tasks";
 
 function CallOverview({ call }: { call: Call }) {
   console.log("CallOverview");
   const { addCallTag, removeCallTag } = useCallsMutations();
+  const { updateTask } = useTasksMutations();
   const setActiveModal = useModalStore((state) => state.setActiveModal);
 
   const selectedTags = call.callTags.reduce((acc, tag) => {
@@ -55,7 +65,17 @@ function CallOverview({ call }: { call: Call }) {
         </Card>
         <Card className="rounded-sm shadow-none">
           <CardHeader>
-            <CardTitle>Tags</CardTitle>
+            <CardTitle className="flex items-center gap-3">
+              <div className="w-10 h-10 b bg-accent rounded-lg flex items-center justify-center">
+                <TagsIcon className="h-5 w-5" />
+              </div>
+              <div className="flex-1">
+                <span className="text-gray-900">Tags</span>
+                <p className="text-sm text-gray-500 font-normal mt-1">
+                  Assigned tags
+                </p>
+              </div>
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex gap-2 justify-start">
@@ -73,14 +93,48 @@ function CallOverview({ call }: { call: Call }) {
 
         <Card className="rounded-sm shadow-none">
           <CardHeader>
-            <CardTitle>Tasks</CardTitle>
+            <CardTitle className="flex items-center gap-3">
+              <div className="w-10 h-10 b bg-accent rounded-lg flex items-center justify-center">
+                <ClipboardListIcon className="h-5 w-5 " />
+              </div>
+              <div className="flex-1">
+                <span className="text-gray-900">Tasks</span>
+                <p className="text-sm text-gray-500 font-normal mt-1">
+                  {call.tasks.length} Assigned tasks
+                </p>
+              </div>
+            </CardTitle>
           </CardHeader>
           <CardContent>
+            <div className="space-y-2 mb-4">
+              {call.tasks.map((task) => (
+                <div
+                  key={task.id}
+                  className="py-2 px-4 border rounded-sm flex items-center justify-between bg-gradient-to-r from-white to-gray-50 "
+                >
+                  {task.description}
+                  <div className="flex gap-2">
+                    <TaskStatusInput
+                      selectedStatus={task.status}
+                      onSelect={async (status: TaskStatus) => {
+                        await updateTask.mutateAsync({ id: task.id, status });
+                      }}
+                    />
+                    {updateTask.variables?.id === task.id &&
+                      updateTask.isPending && <Loader />}
+                  </div>
+                </div>
+              ))}
+            </div>
+
             <Button
               variant="outline"
-              className="w-full"
+              className="w-full border-dashed bg-accent border-foreground/15 hover:border-foreground"
               onClick={() =>
-                setActiveModal("create:manual:task", { description: "" })
+                setActiveModal("create:manual:task", {
+                  callId: call.id,
+                  description: "",
+                })
               }
             >
               <PlusIcon /> Add Manual Task

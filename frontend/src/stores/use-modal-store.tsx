@@ -4,7 +4,7 @@ export type ModalMap = {
   ["none"]: null;
   ["create:call"]: undefined;
   ["update:tag"]: { id: string; name: string };
-  ["create:manual:task"]: { description: string };
+  ["create:manual:task"]: { callId: string; description: string };
 };
 
 type ModalName = keyof ModalMap;

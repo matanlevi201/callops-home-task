@@ -9,10 +9,14 @@ export const getTasks = async (req: Request, res: Response) => {
 
 export const createTask = async (req: Request, res: Response) => {
   const { callId, description } = req.body;
-  const newTask = await prisma.task.create({
-    data: { callId, description },
-  });
-  res.status(201).send(newTask);
+  const [newTask, updatedCall] = await prisma.$transaction([
+    prisma.task.create({ data: { callId, description } }),
+    prisma.call.update({
+      where: { id: callId },
+      data: { updatedAt: new Date() },
+    }),
+  ]);
+  res.status(201).send({ newTask, updatedAt: updatedCall.updatedAt });
 };
 
 export const updateTask = async (req: Request, res: Response) => {
@@ -22,7 +26,7 @@ export const updateTask = async (req: Request, res: Response) => {
   if (!existingTask) {
     throw new NotFoundError();
   }
-  await prisma.$transaction([
+  const [task] = await prisma.$transaction([
     prisma.task.update({
       where: { id },
       data: { status },
@@ -40,5 +44,5 @@ export const updateTask = async (req: Request, res: Response) => {
       },
     }),
   ]);
-  res.status(204).send();
+  res.status(200).send(task.updatedAt);
 };
