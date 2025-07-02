@@ -1,5 +1,6 @@
 import { api } from "./client";
 import type { Tag } from "./tags";
+import type { Task } from "./tasks";
 
 export type Call = {
   id: string;
@@ -8,6 +9,7 @@ export type Call = {
   createdAt?: Date;
   updatedAt: Date;
   callTags: Tag[];
+  tasks: Task[];
 };
 
 export interface CreateCallBody {

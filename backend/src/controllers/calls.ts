@@ -10,6 +10,9 @@ export const getCalls = async (req: Request, res: Response) => {
           tag: true,
         },
       },
+      tasks: {
+        include: {},
+      },
     },
     orderBy: {
       updatedAt: "desc",
@@ -39,6 +42,9 @@ export const createCall = async (req: Request, res: Response) => {
     include: {
       callTags: {
         include: { tag: true },
+      },
+      tasks: {
+        include: {},
       },
     },
   });

@@ -13,6 +13,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum TaskStatus {
+  OPEN
+  IN_PROGRESS
+  COMPLETED
+}
+
 model Call {
   id          String    @id @default(uuid())
   title       String
@@ -20,6 +26,7 @@ model Call {
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   callTags    CallTag[]
+  tasks       Task[]
 }
 
 model Tag {
@@ -38,4 +45,15 @@ model CallTag {
   tagId  String
 
   @@unique([callId, tagId])
+}
+
+model Task {
+  id          String     @id @default(uuid())
+  description String
+  status      TaskStatus @default(OPEN)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  call   Call   @relation(fields: [callId], references: [id])
+  callId String
 }

@@ -5,6 +5,7 @@ import { NotFoundError } from "./errors";
 import { errorHandler } from "./middlewares/error-handler";
 import { CallsRouter } from "./routes/calls";
 import { TagsRouter } from "./routes/tags";
+import { TasksRouter } from "./routes/tasks";
 import { env } from "./env";
 import cors from "cors";
 
@@ -22,6 +23,7 @@ app.use(express.static(staticPath));
 
 app.use("/api/calls", CallsRouter);
 app.use("/api/tags", TagsRouter);
+app.use("/api/tasks", TasksRouter);
 app.all("/api/*", async () => {
   throw new NotFoundError();
 });
