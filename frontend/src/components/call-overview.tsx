@@ -1,15 +1,18 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { PhoneIcon, XCircleIcon } from "lucide-react";
+import { PhoneIcon, PlusIcon, XCircleIcon } from "lucide-react";
 import { format } from "date-fns";
 import type { Call } from "@/api/calls";
 import { Badge } from "@/components/ui/badge";
 import CallTagsInput from "@/components/call-tags-input";
 import useCallsMutations from "@/hooks/use-calls-mutations";
 import Loader from "@/components/loader";
+import { Button } from "./ui/button";
+import { useModalStore } from "@/stores/use-modal-store";
 
 function CallOverview({ call }: { call: Call }) {
   console.log("CallOverview");
   const { addCallTag, removeCallTag } = useCallsMutations();
+  const setActiveModal = useModalStore((state) => state.setActiveModal);
 
   const selectedTags = call.callTags.reduce((acc, tag) => {
     acc[tag.id] = true;
@@ -65,6 +68,23 @@ function CallOverview({ call }: { call: Call }) {
               <CallTagsInput selectedTags={selectedTags} onSelect={onSelect} />
               {(addCallTag.isPending || removeCallTag.isPending) && <Loader />}
             </div>
+          </CardContent>
+        </Card>
+
+        <Card className="rounded-sm shadow-none">
+          <CardHeader>
+            <CardTitle>Tasks</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Button
+              variant="outline"
+              className="w-full"
+              onClick={() =>
+                setActiveModal("create:manual:task", { description: "" })
+              }
+            >
+              <PlusIcon /> Add Manual Task
+            </Button>
           </CardContent>
         </Card>
       </div>
