@@ -1,4 +1,5 @@
 import { api } from "./client";
+import type { Tag } from "./tags";
 
 export type Call = {
   id: string;
@@ -6,7 +7,7 @@ export type Call = {
   description?: string;
   createdAt?: Date;
   updatedAt: Date;
-  tagIds?: string[];
+  callTags: Tag[];
 };
 
 export interface CreateCallBody {
@@ -27,11 +28,15 @@ export const createCall = async (createCallBody: CreateCallBody) => {
   return response.data;
 };
 
-export const updateCall = async (
-  id: string,
-  updateCallBody: Partial<CreateCallBody>
-) => {
-  const response = await api.put(`${BASE_URL}/${id}`, updateCallBody);
+export const addTagCall = async (id: string, tagId: string) => {
+  const response = await api.put(`${BASE_URL}/tags/${id}`, { tagId });
+  return response.data;
+};
+
+export const removeCallTag = async (id: string, tagId: string) => {
+  const response = await api.delete(`${BASE_URL}/tags/${id}`, {
+    data: { tagId },
+  });
   return response.data;
 };
 
@@ -43,6 +48,7 @@ export const deleteCall = async (id: string) => {
 export const CallsApi = {
   getCalls,
   createCall,
-  updateCall,
+  addTagCall,
+  removeCallTag,
   deleteCall,
 };

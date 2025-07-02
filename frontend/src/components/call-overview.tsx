@@ -1,10 +1,30 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { PhoneIcon } from "lucide-react";
+import { PhoneIcon, XCircleIcon } from "lucide-react";
 import { format } from "date-fns";
 import type { Call } from "@/api/calls";
+import { Badge } from "@/components/ui/badge";
+import CallTagsInput from "@/components/call-tags-input";
+import useCallsMutations from "@/hooks/use-calls-mutations";
+import Loader from "@/components/loader";
 
 function CallOverview({ call }: { call: Call }) {
   console.log("CallOverview");
+  const { addCallTag, removeCallTag } = useCallsMutations();
+
+  const selectedTags = call.callTags.reduce((acc, tag) => {
+    acc[tag.id] = true;
+    return acc;
+  }, {} as Record<string, boolean>);
+
+  const onSelect = async (tagId: string) => {
+    if (selectedTags[tagId]) {
+      await removeCallTag.mutateAsync({ id: call.id, tagId });
+      selectedTags[tagId] = false;
+    } else {
+      await addCallTag.mutateAsync({ id: call.id, tagId });
+      selectedTags[tagId] = true;
+    }
+  };
 
   if (call) {
     const formatted = format(call.updatedAt, "d.M.yyyy 'at' HH:mm:ss");
@@ -28,6 +48,23 @@ function CallOverview({ call }: { call: Call }) {
             <blockquote className="mt-6 border-l-2 pl-6 text-muted-foreground">
               {call.description ? call.description : "-- No Description"}
             </blockquote>
+          </CardContent>
+        </Card>
+        <Card className="rounded-sm shadow-none">
+          <CardHeader>
+            <CardTitle>Tags</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex gap-2 justify-start">
+              {call.callTags.map((tag) => (
+                <Badge key={tag.id} variant="secondary" className="px-3">
+                  {tag.name} <XCircleIcon />
+                </Badge>
+              ))}
+
+              <CallTagsInput selectedTags={selectedTags} onSelect={onSelect} />
+              {(addCallTag.isPending || removeCallTag.isPending) && <Loader />}
+            </div>
           </CardContent>
         </Card>
       </div>

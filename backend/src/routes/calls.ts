@@ -2,10 +2,11 @@ import { Request, Response, Router } from "express";
 import { z } from "zod";
 import { validateRequest } from "../middlewares/validate-request";
 import {
+  addCallTag,
+  removeCallTag,
   createCall,
   deleteCall,
   getCalls,
-  updateCall,
 } from "../controllers/calls";
 
 const router = Router();
@@ -16,9 +17,14 @@ const CreateCallSchema = z.object({
   tagIds: z.array(z.string()).default([]),
 });
 
+const ToggleTagSchema = z.object({
+  tagId: z.string(),
+});
+
 router.get("/", getCalls);
 router.post("/", validateRequest(CreateCallSchema), createCall);
-router.put("/:id", validateRequest(CreateCallSchema.partial()), updateCall);
+router.put("/tags/:id", validateRequest(ToggleTagSchema), addCallTag);
+router.delete("/tags/:id", validateRequest(ToggleTagSchema), removeCallTag);
 router.delete("/:id", deleteCall);
 
 export { router as CallsRouter };
