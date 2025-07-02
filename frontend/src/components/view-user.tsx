@@ -1,10 +1,11 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { PlusIcon } from "lucide-react";
 import CallsList from "@/components/calls-list";
 import { useModalStore } from "@/stores/use-modal-store";
 import CallsCreateBanner from "@/components/calls-create-banner";
 import { useSelectedCallStore } from "@/stores/use-selected-call-store";
+import CallOverview from "./call-overview";
 
 function ViewUser() {
   console.log("ViewUser");
@@ -27,11 +28,7 @@ function ViewUser() {
       </Card>
       <div className="w-full">
         {selectedCall ? (
-          <Card className="rounded-sm shadow-none">
-            <CardHeader>
-              <CardTitle>ViewUserInset</CardTitle>
-            </CardHeader>
-          </Card>
+          <CallOverview call={selectedCall} />
         ) : (
           <CallsCreateBanner />
         )}

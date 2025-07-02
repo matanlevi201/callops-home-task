@@ -2,6 +2,7 @@ import { type Call } from "@/api/calls";
 import { Card, CardContent } from "@/components/ui/card";
 import { useSelectedCallStore } from "@/stores/use-selected-call-store";
 import { PhoneIcon } from "lucide-react";
+import { format } from "date-fns";
 
 function CallsListItem({ call }: { call: Call }) {
   console.log("CallListItem");
@@ -28,7 +29,7 @@ function CallsListItem({ call }: { call: Call }) {
           {call.description || "No description"}
         </p>
         <p className="text-xs text-gray-400 mt-1">
-          {call.updatedAt.toLocaleString()}
+          {format(call.updatedAt, "d.M.yyyy 'at' HH:mm:ss")}
         </p>
       </CardContent>
     </Card>
