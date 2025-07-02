@@ -17,8 +17,8 @@ function TagsAddInput() {
         placeholder="Tag name"
       />
       <Button
-        onClick={() => createTag.mutateAsync({ name: tag })}
-        disabled={createTag.isPending}
+        onClick={async () => await createTag.mutateAsync({ name: tag })}
+        disabled={createTag.isPending || !tag}
       >
         {createTag.isPending ? <Loader /> : <PlusIcon />}
       </Button>

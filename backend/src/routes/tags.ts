@@ -6,7 +6,7 @@ import { createTag, deleteTag, getTags, updateTag } from "../controllers/tags";
 const router = Router();
 
 const CreateTagSchema = z.object({
-  name: z.string(),
+  name: z.string().min(1, "Name is too short."),
 });
 
 router.get("/", getTags);
