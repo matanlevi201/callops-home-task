@@ -19,7 +19,6 @@ export const getTags = async () => {
 };
 
 export const createTag = async (createTagBody: CreateTagBody) => {
-  console.log(createTagBody);
   const response = await api.post(BASE_URL, createTagBody);
   return response.data;
 };

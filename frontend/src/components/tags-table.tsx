@@ -15,20 +15,15 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useMemo } from "react";
 import type { Tag } from "@/api/tags";
 import { Badge } from "./ui/badge";
+import { Button } from "./ui/button";
+import { EditIcon } from "lucide-react";
+import { useModalStore } from "@/stores/use-modal-store";
 
 function TagsTable() {
-  console.log("TagsTable");
-  const { data: tags, isError, isPending } = useTagsQuery();
-  const tagsData = useMemo(() => {
-    if (!tags?.length) return [];
-    return tags.map((tag) => ({
-      id: tag.id,
-      name: tag.name,
-    }));
-  }, [tags]);
+  const setActiveModal = useModalStore((state) => state.setActiveModal);
+  const { data: tagsData = [], isError, isPending } = useTagsQuery();
 
   const columns: ColumnDef<Pick<Tag, "id" | "name">>[] = [
     {
@@ -39,16 +34,35 @@ function TagsTable() {
         return <Badge variant="secondary">{tag.name}</Badge>;
       },
     },
+    {
+      accessorKey: "actions",
+      header: "Actions",
+      cell: ({ row }) => {
+        const tag = row.original;
+        return (
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-8 w-8 p-0 hover:bg-primary/10"
+            onClick={() => setActiveModal("update:tag", tag)}
+          >
+            <EditIcon className="h-3 w-3 text-primary" />
+          </Button>
+        );
+      },
+    },
   ];
 
   const table = useReactTable({
     data: tagsData,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    getRowId: (row) => row.id,
   });
 
   if (isPending) return <Loader />;
   if (isError) return;
+  console.log("TagsTable");
   return (
     <div>
       <Table>

@@ -3,6 +3,7 @@ import { create } from "zustand";
 export type ModalMap = {
   ["none"]: null;
   ["create:call"]: undefined;
+  ["update:tag"]: { id: string; name: string };
 };
 
 type ModalName = keyof ModalMap;

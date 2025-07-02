@@ -1,8 +1,12 @@
 import { TagsApi, type CreateTagBody, type Tag } from "@/api/tags";
+import { useSelectedCallStore } from "@/stores/use-selected-call-store";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 function useTagsMutations() {
   const queryClient = useQueryClient();
+  const updateSelectedCall = useSelectedCallStore(
+    (state) => state.updateSelectedCall
+  );
 
   const createTag = useMutation({
     mutationKey: ["create_tag"],
@@ -19,16 +23,16 @@ function useTagsMutations() {
 
   const updateTag = useMutation({
     mutationKey: ["update_tag"],
-    mutationFn: async ({
-      id,
-      tag,
-    }: {
-      id: string;
-      tag: Partial<CreateTagBody>;
-    }) => {
+    mutationFn: async ({ id, tag }: { id: string; tag: CreateTagBody }) => {
       return await TagsApi.updateTag(id, tag);
     },
-    onSuccess: async () => {},
+    onSuccess: async () => {
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ["get_tags"] }),
+        queryClient.refetchQueries({ queryKey: ["get_calls"] }),
+      ]);
+      updateSelectedCall();
+    },
   });
 
   const deleteTag = useMutation({
