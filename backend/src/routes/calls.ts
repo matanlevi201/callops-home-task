@@ -12,7 +12,7 @@ import {
 const router = Router();
 
 const CreateCallSchema = z.object({
-  title: z.string(),
+  title: z.string().min(1, "Title is too short."),
   description: z.string().default(""),
   tagIds: z.array(z.string()).default([]),
 });
