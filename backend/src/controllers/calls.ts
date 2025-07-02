@@ -11,6 +11,9 @@ export const getCalls = async (req: Request, res: Response) => {
         },
       },
     },
+    orderBy: {
+      updatedAt: "desc",
+    },
   });
   const calls = callsRaw.map((call) => ({
     ...call,
@@ -53,13 +56,11 @@ export const addCallTag = async (req: Request, res: Response) => {
   if (!existingCall) {
     throw new NotFoundError();
   }
-  await prisma.callTag.create({
-    data: {
-      callId: id,
-      tagId: tagId,
-    },
-  });
-  res.status(204).send();
+  const [, updatedCall] = await prisma.$transaction([
+    prisma.callTag.create({ data: { callId: id, tagId } }),
+    prisma.call.update({ where: { id }, data: { updatedAt: new Date() } }),
+  ]);
+  res.status(200).send(updatedCall.updatedAt);
 };
 
 export const removeCallTag = async (req: Request, res: Response) => {
@@ -69,15 +70,18 @@ export const removeCallTag = async (req: Request, res: Response) => {
   if (!existingCall) {
     throw new NotFoundError();
   }
-  await prisma.callTag.delete({
-    where: {
-      callId_tagId: {
-        callId: id,
-        tagId: tagId,
+  const [, updatedCall] = await prisma.$transaction([
+    prisma.callTag.delete({
+      where: {
+        callId_tagId: {
+          callId: id,
+          tagId: tagId,
+        },
       },
-    },
-  });
-  res.status(204).send();
+    }),
+    prisma.call.update({ where: { id }, data: { updatedAt: new Date() } }),
+  ]);
+  res.status(200).send(updatedCall.updatedAt);
 };
 
 export const deleteCall = async (req: Request, res: Response) => {

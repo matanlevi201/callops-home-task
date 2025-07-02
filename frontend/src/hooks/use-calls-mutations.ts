@@ -27,15 +27,16 @@ function useCallsMutations() {
   const addCallTag = useMutation({
     mutationKey: ["add_call_tag"],
     mutationFn: async ({ id, tagId }: { id: string; tagId: string }) => {
-      await CallsApi.addTagCall(id, tagId);
-      return tagId;
+      const updatedAt = await CallsApi.addTagCall(id, tagId);
+      return { tagId, updatedAt };
     },
-    onSuccess: (tagId) => {
+    onSuccess: ({ tagId, updatedAt }) => {
       const tags = queryClient.getQueryData<Tag[]>(["get_tags"]) ?? [];
       const addedTag = tags.find((tag) => tag.id === tagId);
       if (!addedTag || !selectedCall) return;
       const updatedCall = {
         ...selectedCall,
+        updatedAt,
         callTags: [...selectedCall.callTags, addedTag],
       };
       setSelectedCall(updatedCall);
@@ -51,15 +52,16 @@ function useCallsMutations() {
   const removeCallTag = useMutation({
     mutationKey: ["remove_call_tag"],
     mutationFn: async ({ id, tagId }: { id: string; tagId: string }) => {
-      await CallsApi.removeCallTag(id, tagId);
-      return tagId;
+      const updatedAt = await CallsApi.removeCallTag(id, tagId);
+      return { tagId, updatedAt };
     },
-    onSuccess: (tagId) => {
+    onSuccess: ({ tagId, updatedAt }) => {
       const tags = queryClient.getQueryData<Tag[]>(["get_tags"]) ?? [];
       const removedTag = tags.find((tag) => tag.id === tagId);
       if (!removedTag || !selectedCall) return;
       const updatedCall = {
         ...selectedCall,
+        updatedAt: new Date(updatedAt),
         callTags: selectedCall.callTags.filter(
           (callTag) => callTag.id !== tagId
         ),

@@ -24,10 +24,24 @@ export const updateTag = async (req: Request, res: Response) => {
   if (!existingTag) {
     throw new NotFoundError();
   }
-  await prisma.tag.update({
-    where: { id: tagId },
-    data: { name },
-  });
+  await prisma.$transaction([
+    prisma.tag.update({
+      where: { id: tagId },
+      data: { name },
+    }),
+    prisma.call.updateMany({
+      where: {
+        callTags: {
+          some: {
+            tagId,
+          },
+        },
+      },
+      data: {
+        updatedAt: new Date(),
+      },
+    }),
+  ]);
   res.status(204).send();
 };
 
