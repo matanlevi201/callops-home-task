@@ -15,21 +15,30 @@ import useCallsMutations from "@/hooks/use-calls-mutations";
 import Loader from "@/components/loader";
 import { Button } from "./ui/button";
 import { useModalStore } from "@/stores/use-modal-store";
-import TaskStatusInput from "@/components/task-status-input";
 import useTasksMutations from "@/hooks/use-tasks-mutations";
-import type { TaskStatus } from "@/api/tasks";
-import SuggestedSasksList from "@/components/suggested-tasks-list";
+import AssignedTaskItem from "@/components/assigned-task-item";
+import SuggestedTaskItem from "@/components/suggested-task-item";
+import { useMemo } from "react";
+import useSuggestedTasksQuery from "@/hooks/use-suggested-tasks-query";
 
 function CallOverview({ call }: { call: Call }) {
   console.log("CallOverview");
   const { addCallTag, removeCallTag } = useCallsMutations();
   const { updateTask } = useTasksMutations();
   const setActiveModal = useModalStore((state) => state.setActiveModal);
+  const { data: suggestedTasks = [], isPending } = useSuggestedTasksQuery();
 
   const selectedTags = call.callTags.reduce((acc, tag) => {
     acc[tag.id] = true;
     return acc;
   }, {} as Record<string, boolean>);
+
+  const suggestedTasksMap = useMemo(() => {
+    return call.suggestedTasks.reduce((acc, suggestedTask) => {
+      acc[suggestedTask.id] = true;
+      return acc;
+    }, {} as Record<string, boolean>);
+  }, [call.suggestedTasks]);
 
   const onSelect = async (tagId: string) => {
     if (selectedTags[tagId]) {
@@ -109,23 +118,12 @@ function CallOverview({ call }: { call: Call }) {
           </CardHeader>
           <CardContent>
             <div className="space-y-2 mb-4">
-              {call.tasks.map((task) => (
-                <div
+              {[...call.tasks, ...call.suggestedTasks].map((task) => (
+                <AssignedTaskItem
                   key={task.id}
-                  className="py-2 px-4 border rounded-sm flex items-center justify-between bg-gradient-to-r from-white to-gray-50 "
-                >
-                  {task.description}
-                  <div className="flex gap-2">
-                    <TaskStatusInput
-                      selectedStatus={task.status}
-                      onSelect={async (status: TaskStatus) => {
-                        await updateTask.mutateAsync({ id: task.id, status });
-                      }}
-                    />
-                    {updateTask.variables?.id === task.id &&
-                      updateTask.isPending && <Loader />}
-                  </div>
-                </div>
+                  task={task}
+                  updateTask={updateTask}
+                />
               ))}
             </div>
 
@@ -159,7 +157,19 @@ function CallOverview({ call }: { call: Call }) {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <SuggestedSasksList />
+            <div className="space-y-2 mb-4 ">
+              {isPending ? (
+                <Loader />
+              ) : (
+                suggestedTasks.map((suggestedTask) => (
+                  <SuggestedTaskItem
+                    key={suggestedTask.id}
+                    suggestedTask={suggestedTask}
+                    isAssigned={suggestedTasksMap[suggestedTask.id]}
+                  />
+                ))
+              )}
+            </div>
           </CardContent>
         </Card>
       </div>
