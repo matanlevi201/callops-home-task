@@ -13,6 +13,19 @@ export const getCalls = async (req: Request, res: Response) => {
       tasks: {
         include: {},
       },
+      suggestedTasks: {
+        include: {
+          suggestedTask: {
+            include: {
+              tags: {
+                include: {
+                  tag: true,
+                },
+              },
+            },
+          },
+        },
+      },
     },
     orderBy: {
       updatedAt: "desc",
@@ -21,6 +34,10 @@ export const getCalls = async (req: Request, res: Response) => {
   const calls = callsRaw.map((call) => ({
     ...call,
     callTags: call.callTags.map((callTag) => callTag.tag),
+    suggestedTasks: call.suggestedTasks.map((task) => ({
+      ...task.suggestedTask,
+      tags: task.suggestedTask.tags.map((tag) => tag.tag),
+    })),
   }));
   res.status(200).send(calls);
 };
@@ -98,4 +115,18 @@ export const deleteCall = async (req: Request, res: Response) => {
   }
   await prisma.call.delete({ where: { id: callId } });
   res.status(204).send();
+};
+
+export const addCallSuggestedTask = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { suggestedTaskId } = req.body;
+  const existingCall = await prisma.call.findUnique({ where: { id } });
+  if (!existingCall) {
+    throw new NotFoundError();
+  }
+  const [, updatedCall] = await prisma.$transaction([
+    prisma.suggestedTaskCall.create({ data: { callId: id, suggestedTaskId } }),
+    prisma.call.update({ where: { id }, data: { updatedAt: new Date() } }),
+  ]);
+  res.status(200).send(updatedCall.updatedAt);
 };

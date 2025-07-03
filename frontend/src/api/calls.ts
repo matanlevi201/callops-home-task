@@ -1,4 +1,5 @@
 import { api } from "./client";
+import type { SuggestedTask } from "./suggested-tasks";
 import type { Tag } from "./tags";
 import type { Task } from "./tasks";
 
@@ -10,6 +11,7 @@ export type Call = {
   updatedAt: Date;
   callTags: Tag[];
   tasks: Task[];
+  suggestedTasks: SuggestedTask[];
 };
 
 export interface CreateCallBody {
@@ -47,10 +49,21 @@ export const deleteCall = async (id: string) => {
   return response.data;
 };
 
+export const addCallSuggestedTask = async (
+  id: string,
+  suggestedTaskId: string
+) => {
+  const response = await api.put(`${BASE_URL}/suggested-tasks/${id}`, {
+    suggestedTaskId,
+  });
+  return response.data;
+};
+
 export const CallsApi = {
   getCalls,
   createCall,
   addTagCall,
   removeCallTag,
   deleteCall,
+  addCallSuggestedTask,
 };

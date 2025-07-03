@@ -20,13 +20,14 @@ enum TaskStatus {
 }
 
 model Call {
-  id          String    @id @default(uuid())
-  title       String
-  description String?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  callTags    CallTag[]
-  tasks       Task[]
+  id             String              @id @default(uuid())
+  title          String
+  description    String?
+  createdAt      DateTime            @default(now())
+  updatedAt      DateTime            @updatedAt
+  callTags       CallTag[]
+  tasks          Task[]
+  suggestedTasks SuggestedTaskCall[]
 }
 
 model Tag {
@@ -66,7 +67,8 @@ model SuggestedTask {
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 
-  tags SuggestedTaskTag[]
+  tags  SuggestedTaskTag[]
+  calls SuggestedTaskCall[]
 }
 
 model SuggestedTaskTag {
@@ -77,4 +79,14 @@ model SuggestedTaskTag {
   suggestedTaskId String
 
   @@unique([suggestedTaskId, tagId])
+}
+
+model SuggestedTaskCall {
+  id              String        @id @default(uuid())
+  call            Call          @relation(fields: [callId], references: [id], onDelete: Cascade)
+  suggestedTask   SuggestedTask @relation(fields: [suggestedTaskId], references: [id], onDelete: Cascade)
+  callId          String
+  suggestedTaskId String
+
+  @@unique([suggestedTaskId, callId])
 }

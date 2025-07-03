@@ -7,6 +7,7 @@ import {
   createCall,
   deleteCall,
   getCalls,
+  addCallSuggestedTask,
 } from "../controllers/calls";
 
 const router = Router();
@@ -21,9 +22,18 @@ const ToggleTagSchema = z.object({
   tagId: z.string(),
 });
 
+const AddSuggestedTaskSchema = z.object({
+  suggestedTaskId: z.string(),
+});
+
 router.get("/", getCalls);
 router.post("/", validateRequest(CreateCallSchema), createCall);
 router.put("/tags/:id", validateRequest(ToggleTagSchema), addCallTag);
+router.put(
+  "/suggested-tasks/:id",
+  validateRequest(AddSuggestedTaskSchema),
+  addCallSuggestedTask
+);
 router.delete("/tags/:id", validateRequest(ToggleTagSchema), removeCallTag);
 router.delete("/:id", deleteCall);
 
