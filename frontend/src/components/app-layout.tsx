@@ -30,7 +30,7 @@ function AppLayout() {
           <Button
             variant="outline"
             onClick={toggleMode}
-            className="ml-auto hover:bg-primary"
+            className="ml-auto hover:bg-primary/90 hover:text-white"
           >
             Switch to {isAdmin ? "User" : "Admin"} Mode
           </Button>

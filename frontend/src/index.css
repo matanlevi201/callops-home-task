@@ -141,3 +141,15 @@
     background-clip: text;
   }
 }
+
+@media (hover: none) {
+  *:hover {
+    background: none !important;
+    color: inherit !important;
+    box-shadow: none !important;
+    transform: none !important;
+    text-decoration: none !important;
+    transition: none !important;
+    filter: none !important;
+  }
+}
