@@ -63,11 +63,28 @@ export const createCall = async (req: Request, res: Response) => {
       tasks: {
         include: {},
       },
+      suggestedTasks: {
+        include: {
+          suggestedTask: {
+            include: {
+              tags: {
+                include: {
+                  tag: true,
+                },
+              },
+            },
+          },
+        },
+      },
     },
   });
   const newCall = {
     ...newCallRaw,
     callTags: newCallRaw.callTags.map((callTag) => callTag.tag),
+    suggestedTasks: newCallRaw.suggestedTasks.map((task) => ({
+      ...task.suggestedTask,
+      tags: task.suggestedTask.tags.map((tag) => tag.tag),
+    })),
   };
   res.status(201).send(newCall);
 };

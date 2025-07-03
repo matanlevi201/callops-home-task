@@ -5,7 +5,6 @@ import {
   PhoneIcon,
   PlusIcon,
   TagsIcon,
-  XCircleIcon,
 } from "lucide-react";
 import { format } from "date-fns";
 import { isSuggestedTask, type Call } from "@/api/calls";
@@ -94,7 +93,7 @@ function CallOverview({ call }: { call: Call }) {
             <div className="flex gap-2 justify-start">
               {call.callTags.map((tag) => (
                 <Badge key={tag.id} variant="secondary" className="px-3">
-                  {tag.name} <XCircleIcon />
+                  {tag.name}
                 </Badge>
               ))}
 
