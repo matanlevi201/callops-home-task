@@ -18,6 +18,11 @@ export interface CreateSuggestedTaskBody {
 
 const BASE_URL = "/api/suggested-tasks";
 
+export const getSuggestedTasks = async () => {
+  const response = await api.get(BASE_URL);
+  return response.data;
+};
+
 export const createSuggestedTask = async (
   createSuggestedTaskBody: CreateSuggestedTaskBody
 ) => {
@@ -31,6 +36,7 @@ export const updateSuggestedTask = async (id: string, status: TaskStatus) => {
 };
 
 export const SuggestedTasksApi = {
+  getSuggestedTasks,
   createSuggestedTask,
   updateSuggestedTask,
 };

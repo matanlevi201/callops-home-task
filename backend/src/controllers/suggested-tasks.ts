@@ -3,8 +3,20 @@ import prisma from "../db";
 import { NotFoundError } from "../errors";
 
 export const getSuggestedTasks = async (req: Request, res: Response) => {
-  const tasks = await prisma.suggestedTask.findMany();
-  res.status(200).send(tasks);
+  const suggestedTasksRaw = await prisma.suggestedTask.findMany({
+    include: {
+      tags: {
+        include: {
+          tag: true,
+        },
+      },
+    },
+  });
+  const suggestedTasks = suggestedTasksRaw.map((suggestedTask) => ({
+    ...suggestedTask,
+    tags: suggestedTask.tags.map((tag) => tag.tag),
+  }));
+  res.status(200).send(suggestedTasks);
 };
 
 export const createSuggestedTask = async (req: Request, res: Response) => {
