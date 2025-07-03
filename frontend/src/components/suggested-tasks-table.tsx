@@ -13,10 +13,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Badge } from "./ui/badge";
-import { Button } from "./ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { EditIcon } from "lucide-react";
 import type { SuggestedTask } from "@/api/suggested-tasks";
+import { useModalStore } from "@/stores/use-modal-store";
 
 interface SuggestedTasksTable {
   suggestedTasks: SuggestedTask[];
@@ -24,6 +25,7 @@ interface SuggestedTasksTable {
 
 function SuggestedTasksTable({ suggestedTasks }: SuggestedTasksTable) {
   console.log("SuggestedTasksTable");
+  const setActiveModal = useModalStore((state) => state.setActiveModal);
   const columns: ColumnDef<
     Pick<SuggestedTask, "id" | "description" | "tags">
   >[] = [
@@ -51,13 +53,20 @@ function SuggestedTasksTable({ suggestedTasks }: SuggestedTasksTable) {
     {
       accessorKey: "actions",
       header: "Actions",
-      cell: () => {
+      cell: ({ row }) => {
+        const suggestedTask = row.original;
         return (
           <Button
             variant="ghost"
             size="sm"
             className="h-8 w-8 p-0 hover:bg-primary/10"
-            onClick={() => console.log("DO SOMETHING")}
+            onClick={() =>
+              setActiveModal("update:suggested:task", {
+                id: suggestedTask.id,
+                description: suggestedTask.description,
+                tags: suggestedTask.tags.map((tag) => tag.id),
+              })
+            }
           >
             <EditIcon className="h-3 w-3 text-primary" />
           </Button>

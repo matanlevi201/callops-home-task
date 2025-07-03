@@ -39,9 +39,8 @@ function useTagsMutations() {
         (old) => [
           ...(old || []).map((suggestedTask) => {
             const tagIndex = suggestedTask.tags.findIndex(
-              (tag) => (tag.id = updatedTag.id)
+              (tag) => tag.id === updatedTag.id
             );
-
             if (tagIndex !== -1) {
               const newTags = [...suggestedTask.tags];
               newTags[tagIndex] = { ...updatedTag };

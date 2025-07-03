@@ -21,7 +21,31 @@ function useSuggestedTasksMutations() {
     },
   });
 
-  return { createSuggestedTask };
+  const updateSuggestedTask = useMutation({
+    mutationKey: ["update_suggested_task"],
+    mutationFn: async ({
+      id,
+      suggestedTaskBody,
+    }: {
+      id: string;
+      suggestedTaskBody: Partial<CreateSuggestedTaskBody>;
+    }) => {
+      return await SuggestedTasksApi.updateSuggestedTask(id, suggestedTaskBody);
+    },
+    onSuccess: async (updatedSuggestedTask) => {
+      queryClient.setQueryData<SuggestedTask[]>(
+        ["get_suggested_tasks"],
+        (old) =>
+          (old || []).map((tag) =>
+            tag.id === updatedSuggestedTask.id
+              ? { ...updatedSuggestedTask }
+              : tag
+          )
+      );
+    },
+  });
+
+  return { createSuggestedTask, updateSuggestedTask };
 }
 
 export default useSuggestedTasksMutations;

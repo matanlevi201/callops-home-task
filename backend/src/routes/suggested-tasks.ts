@@ -12,7 +12,7 @@ const router = Router();
 
 const CreateSuggestedTaskSchema = z.object({
   description: z.string().min(5, "Description is too short."),
-  tagIds: z.array(z.string()).default([]),
+  tagIds: z.array(z.string()),
 });
 
 const UpdateSuggestedTaskSchema = z.object({
@@ -31,7 +31,7 @@ router.post(
 );
 router.put(
   "/:id",
-  validateRequest(UpdateSuggestedTaskSchema),
+  validateRequest(CreateSuggestedTaskSchema.partial()),
   updateSuggestedTask
 );
 

@@ -4,7 +4,7 @@ import type { TaskStatus } from "./tasks";
 
 export type SuggestedTask = {
   id: string;
-  description?: string;
+  description: string;
   status: TaskStatus;
   createdAt?: Date;
   updatedAt: Date;
@@ -30,7 +30,20 @@ export const createSuggestedTask = async (
   return response.data;
 };
 
-export const updateSuggestedTask = async (id: string, status: TaskStatus) => {
+// by Admin
+export const updateSuggestedTask = async (
+  id: string,
+  updateSuggestedTaskBody: Partial<CreateSuggestedTaskBody>
+) => {
+  const response = await api.put(`${BASE_URL}/${id}`, updateSuggestedTaskBody);
+  return response.data;
+};
+
+// by User
+export const updateSuggestedTaskStatus = async (
+  id: string,
+  status: TaskStatus
+) => {
   const response = await api.put(`${BASE_URL}/${id}`, { status });
   return response.data;
 };
@@ -39,4 +52,5 @@ export const SuggestedTasksApi = {
   getSuggestedTasks,
   createSuggestedTask,
   updateSuggestedTask,
+  updateSuggestedTaskStatus,
 };
