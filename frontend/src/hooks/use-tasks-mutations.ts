@@ -33,8 +33,16 @@ function useTasksMutations() {
 
   const updateTask = useMutation({
     mutationKey: ["update_task"],
-    mutationFn: async ({ id, status }: { id: string; status: TaskStatus }) => {
-      const updatedAt = await TasksApi.updateTask(id, status);
+    mutationFn: async ({
+      callId,
+      id,
+      status,
+    }: {
+      callId: string;
+      id: string;
+      status: TaskStatus;
+    }) => {
+      const updatedAt = await TasksApi.updateTask(id, callId, status);
       return { id, status, updatedAt };
     },
     onSuccess: async ({ id, status, updatedAt }) => {

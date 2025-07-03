@@ -21,28 +21,20 @@ export const createTask = async (req: Request, res: Response) => {
 
 export const updateTask = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { status } = req.body;
+  const { callId, status } = req.body;
   const existingTask = await prisma.task.findUnique({ where: { id } });
   if (!existingTask) {
     throw new NotFoundError();
   }
-  const [task] = await prisma.$transaction([
+  const [, updatedCall] = await prisma.$transaction([
     prisma.task.update({
       where: { id },
       data: { status },
     }),
-    prisma.call.updateMany({
-      where: {
-        tasks: {
-          some: {
-            id,
-          },
-        },
-      },
-      data: {
-        updatedAt: new Date(),
-      },
+    prisma.call.update({
+      where: { id: callId },
+      data: { updatedAt: new Date() },
     }),
   ]);
-  res.status(200).send(task.updatedAt);
+  res.status(200).send(updatedCall.updatedAt);
 };

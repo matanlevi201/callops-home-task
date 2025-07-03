@@ -5,6 +5,7 @@ import {
   getSuggestedTasks,
   createSuggestedTask,
   updateSuggestedTask,
+  updateSuggestedTaskStatus,
 } from "../controllers/suggested-tasks";
 import { TaskStatus } from "@prisma/client";
 
@@ -16,6 +17,7 @@ const CreateSuggestedTaskSchema = z.object({
 });
 
 const UpdateSuggestedTaskSchema = z.object({
+  callId: z.string(),
   status: z.enum([
     TaskStatus.OPEN,
     TaskStatus.IN_PROGRESS,
@@ -33,6 +35,11 @@ router.put(
   "/:id",
   validateRequest(CreateSuggestedTaskSchema.partial()),
   updateSuggestedTask
+);
+router.put(
+  "/status/:id",
+  validateRequest(UpdateSuggestedTaskSchema),
+  updateSuggestedTaskStatus
 );
 
 export { router as SuggestedTasksRouter };

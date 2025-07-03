@@ -28,8 +28,12 @@ export const createTask = async (createTagBody: CreateTaskBody) => {
   return response.data;
 };
 
-export const updateTask = async (id: string, status: TaskStatus) => {
-  const response = await api.put(`${BASE_URL}/${id}`, { status });
+export const updateTask = async (
+  id: string,
+  callId: string,
+  status: TaskStatus
+) => {
+  const response = await api.put(`${BASE_URL}/${id}`, { callId, status });
   return response.data;
 };
 

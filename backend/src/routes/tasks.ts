@@ -12,6 +12,7 @@ const CreateTaskSchema = z.object({
 });
 
 const UpdateTaskSchema = z.object({
+  callId: z.string(),
   status: z.enum([
     TaskStatus.OPEN,
     TaskStatus.IN_PROGRESS,

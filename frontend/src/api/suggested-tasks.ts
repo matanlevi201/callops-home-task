@@ -42,9 +42,13 @@ export const updateSuggestedTask = async (
 // by User
 export const updateSuggestedTaskStatus = async (
   id: string,
+  callId: string,
   status: TaskStatus
 ) => {
-  const response = await api.put(`${BASE_URL}/${id}`, { status });
+  const response = await api.put(`${BASE_URL}/status/${id}`, {
+    callId,
+    status,
+  });
   return response.data;
 };
 

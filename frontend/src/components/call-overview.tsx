@@ -20,11 +20,13 @@ import AssignedTaskItem from "@/components/assigned-task-item";
 import SuggestedTaskItem from "@/components/suggested-task-item";
 import { useMemo } from "react";
 import useSuggestedTasksQuery from "@/hooks/use-suggested-tasks-query";
+import useSuggestedTasksMutations from "@/hooks/use-suggested-tasks-mutations";
 
 function CallOverview({ call }: { call: Call }) {
   console.log("CallOverview");
   const { addCallTag, removeCallTag } = useCallsMutations();
   const { updateTask } = useTasksMutations();
+  const { updateSuggestedTaskStatus } = useSuggestedTasksMutations();
   const setActiveModal = useModalStore((state) => state.setActiveModal);
   const { data: suggestedTasks = [], isPending } = useSuggestedTasksQuery();
 
@@ -109,9 +111,10 @@ function CallOverview({ call }: { call: Call }) {
                 <ClipboardListIcon className="h-5 w-5 " />
               </div>
               <div className="flex-1">
-                <span className="text-gray-900">Tasks</span>
+                <span className="text-gray-900">Assigned Tasks</span>
                 <p className="text-sm text-gray-500 font-normal mt-1">
-                  {call.tasks.length} Assigned tasks
+                  {call.tasks.length + call.suggestedTasks.length} Assigned
+                  tasks
                 </p>
               </div>
             </CardTitle>
@@ -121,8 +124,13 @@ function CallOverview({ call }: { call: Call }) {
               {[...call.tasks, ...call.suggestedTasks].map((task) => (
                 <AssignedTaskItem
                   key={task.id}
+                  callId={call.id}
                   task={task}
-                  updateTask={isSuggestedTask(task) ? updateTask : updateTask}
+                  updateTask={
+                    isSuggestedTask(task)
+                      ? updateSuggestedTaskStatus
+                      : updateTask
+                  }
                 />
               ))}
             </div>

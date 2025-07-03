@@ -102,18 +102,22 @@ export const updateSuggestedTaskStatus = async (
   res: Response
 ) => {
   const { id } = req.params;
-  const { status } = req.body;
+  const { callId, status } = req.body;
   const existingSuggestedTask = await prisma.suggestedTask.findUnique({
     where: { id },
   });
   if (!existingSuggestedTask) {
     throw new NotFoundError();
   }
-  await prisma.$transaction([
+  const [, updatedCall] = await prisma.$transaction([
     prisma.suggestedTask.update({
       where: { id },
       data: { status },
     }),
+    prisma.call.update({
+      where: { id: callId },
+      data: { updatedAt: new Date() },
+    }),
   ]);
-  res.status(200).send();
+  res.status(200).send(updatedCall.updatedAt);
 };

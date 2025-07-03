@@ -7,6 +7,7 @@ import type { UseMutateAsyncFunction } from "@tanstack/react-query";
 import { isSuggestedTask } from "@/api/calls";
 
 interface AssignedTaskItemProps {
+  callId: string;
   task: Task | SuggestedTask;
   updateTask: {
     mutateAsync: UseMutateAsyncFunction<
@@ -18,6 +19,7 @@ interface AssignedTaskItemProps {
       Error,
       {
         id: string;
+        callId: string;
         status: TaskStatus;
       },
       unknown
@@ -27,7 +29,7 @@ interface AssignedTaskItemProps {
   };
 }
 
-function AssignedTaskItem({ task, updateTask }: AssignedTaskItemProps) {
+function AssignedTaskItem({ callId, task, updateTask }: AssignedTaskItemProps) {
   return (
     <div className="py-2 px-4 border rounded-sm flex items-center justify-between bg-gradient-to-r from-white to-gray-50">
       <div className="flex flex-col gap-1">
@@ -47,7 +49,7 @@ function AssignedTaskItem({ task, updateTask }: AssignedTaskItemProps) {
         <TaskStatusInput
           selectedStatus={task.status}
           onSelect={async (status: TaskStatus) => {
-            await updateTask.mutateAsync({ id: task.id, status });
+            await updateTask.mutateAsync({ callId, id: task.id, status });
           }}
         />
         {updateTask.variables?.id === task.id && updateTask.isPending && (
