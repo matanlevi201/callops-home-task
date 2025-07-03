@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   ClipboardListIcon,
+  LightbulbIcon,
   PhoneIcon,
   PlusIcon,
   TagsIcon,
@@ -17,6 +18,7 @@ import { useModalStore } from "@/stores/use-modal-store";
 import TaskStatusInput from "@/components/task-status-input";
 import useTasksMutations from "@/hooks/use-tasks-mutations";
 import type { TaskStatus } from "@/api/tasks";
+import SuggestedSasksList from "@/components/suggested-tasks-list";
 
 function CallOverview({ call }: { call: Call }) {
   console.log("CallOverview");
@@ -139,6 +141,25 @@ function CallOverview({ call }: { call: Call }) {
             >
               <PlusIcon /> Add Manual Task
             </Button>
+          </CardContent>
+        </Card>
+
+        <Card className="rounded-sm shadow-none">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-3">
+              <div className="w-10 h-10 b  bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center">
+                <LightbulbIcon className="h-5 w-5 text-white" />
+              </div>
+              <div className="flex-1">
+                <span className="text-gray-900">Suggested tasks</span>
+                <p className="text-sm text-gray-500 font-normal mt-1">
+                  Powered by admin
+                </p>
+              </div>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <SuggestedSasksList />
           </CardContent>
         </Card>
       </div>

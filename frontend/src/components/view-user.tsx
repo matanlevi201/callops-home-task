@@ -13,9 +13,9 @@ function ViewUser() {
   const setActiveModal = useModalStore((state) => state.setActiveModal);
 
   return (
-    <div className="container max-w-7xl mx-auto flex-1 flex gap-6 p-6">
-      <Card className="w-[400px] rounded-sm shadow-none">
-        <CardContent className="overflow-auto grow basis-0">
+    <div className="container max-w-7xl mx-auto flex gap-6 p-6 h-[calc(100vh-64px)]">
+      <Card className="w-[400px] rounded-sm shadow-none h-full">
+        <CardContent className="overflow-auto h-full">
           <CardTitle>Calls</CardTitle>
           <Button
             onClick={() => setActiveModal("create:call", undefined)}
@@ -26,7 +26,7 @@ function ViewUser() {
           <CallsList />
         </CardContent>
       </Card>
-      <div className="w-full">
+      <div className="w-full h-full overflow-auto">
         {selectedCall ? (
           <CallOverview call={selectedCall} />
         ) : (
