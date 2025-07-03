@@ -39,8 +39,10 @@ function SuggestedTasksTable({ suggestedTasks }: SuggestedTasksTable) {
         if (!suggestedTask.tags.length) return;
         return (
           <div className="flex flex-wrap gap-1">
-            {[...suggestedTask.tags].map((tag) => (
-              <Badge variant="secondary">{tag.name}</Badge>
+            {suggestedTask.tags.map((tag) => (
+              <Badge key={tag.id} variant="secondary">
+                {tag.name}
+              </Badge>
             ))}
           </div>
         );

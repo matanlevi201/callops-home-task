@@ -1,9 +1,10 @@
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
-import TagsAddInput from "./tags-add-input";
-import TagsTable from "./tags-table";
+import TagsAddInput from "@/components/tags-add-input";
+import TagsTable from "@/components/tags-table";
 import useSuggestedTasksQuery from "@/hooks/use-suggested-tasks-query";
-import Loader from "./loader";
-import SuggestedTasksTable from "./suggested-tasks-table";
+import Loader from "@/components/loader";
+import SuggestedTasksTable from "@/components/suggested-tasks-table";
+import SuggestedTaskForm from "@/components/suggested-task-form";
 
 function ViewAdmin() {
   console.log("ViewAdmin");
@@ -25,6 +26,7 @@ function ViewAdmin() {
       <Card className="rounded-sm w-full shadow-none">
         <CardContent className="space-y-4">
           <CardTitle className="text-2xl">Suggested Tasks</CardTitle>
+          <SuggestedTaskForm />
           <SuggestedTasksTable suggestedTasks={suggestedTasks} />
         </CardContent>
       </Card>

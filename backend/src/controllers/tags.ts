@@ -24,7 +24,7 @@ export const updateTag = async (req: Request, res: Response) => {
   if (!existingTag) {
     throw new NotFoundError();
   }
-  await prisma.$transaction([
+  const [updatedTag] = await prisma.$transaction([
     prisma.tag.update({
       where: { id: tagId },
       data: { name },
@@ -42,7 +42,7 @@ export const updateTag = async (req: Request, res: Response) => {
       },
     }),
   ]);
-  res.status(204).send();
+  res.status(200).send(updatedTag);
 };
 
 export const deleteTag = async (req: Request, res: Response) => {

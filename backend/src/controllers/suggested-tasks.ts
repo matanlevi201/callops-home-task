@@ -21,7 +21,7 @@ export const getSuggestedTasks = async (req: Request, res: Response) => {
 
 export const createSuggestedTask = async (req: Request, res: Response) => {
   const { description, tagIds = [] } = req.body;
-  const suggestedTask = await prisma.suggestedTask.create({
+  const suggestedTaskRaw = await prisma.suggestedTask.create({
     data: {
       description,
       tags: {
@@ -38,6 +38,10 @@ export const createSuggestedTask = async (req: Request, res: Response) => {
       },
     },
   });
+  const suggestedTask = {
+    ...suggestedTaskRaw,
+    tags: suggestedTaskRaw.tags.map((tag) => tag.tag),
+  };
   res.status(201).send(suggestedTask);
 };
 
