@@ -22,7 +22,7 @@ function SuggestedTaskItem({
       key={suggestedTask.id}
       className="py-2 px-4 border rounded-sm bg-gradient-to-r from-purple-50 to-purple-25 hover:shadow-md transition-all duration-200 "
     >
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-4 sm:gap-0 sm:items-center justify-between sm:flex-row">
         <div className="flex flex-col gap-1">
           {suggestedTask.description}
           <div className="flex flex-wrap gap-1">

@@ -12,7 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import CallTagsInput from "@/components/call-tags-input";
 import useCallsMutations from "@/hooks/use-calls-mutations";
 import Loader from "@/components/loader";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 import { useModalStore } from "@/stores/use-modal-store";
 import useTasksMutations from "@/hooks/use-tasks-mutations";
 import AssignedTaskItem from "@/components/assigned-task-item";
@@ -90,7 +90,7 @@ function CallOverview({ call }: { call: Call }) {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="flex gap-2 justify-start">
+            <div className="flex gap-2 flex-wrap justify-start">
               {call.callTags.map((tag) => (
                 <Badge key={tag.id} variant="secondary" className="px-3">
                   {tag.name}

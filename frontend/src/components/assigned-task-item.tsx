@@ -31,7 +31,7 @@ interface AssignedTaskItemProps {
 
 function AssignedTaskItem({ callId, task, updateTask }: AssignedTaskItemProps) {
   return (
-    <div className="py-2 px-4 border rounded-sm flex items-center justify-between bg-gradient-to-r from-white to-gray-50">
+    <div className="py-2 px-4 border rounded-sm flex flex-col gap-4 sm:gap-0 justify-between bg-gradient-to-r from-white to-gray-50 sm:items-center sm:flex-row">
       <div className="flex flex-col gap-1">
         {task.description}
         {isSuggestedTask(task) && task.tags.length > 0 && (
