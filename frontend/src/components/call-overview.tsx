@@ -8,7 +8,7 @@ import {
   XCircleIcon,
 } from "lucide-react";
 import { format } from "date-fns";
-import type { Call } from "@/api/calls";
+import { isSuggestedTask, type Call } from "@/api/calls";
 import { Badge } from "@/components/ui/badge";
 import CallTagsInput from "@/components/call-tags-input";
 import useCallsMutations from "@/hooks/use-calls-mutations";
@@ -122,7 +122,7 @@ function CallOverview({ call }: { call: Call }) {
                 <AssignedTaskItem
                   key={task.id}
                   task={task}
-                  updateTask={updateTask}
+                  updateTask={isSuggestedTask(task) ? updateTask : updateTask}
                 />
               ))}
             </div>
@@ -164,6 +164,7 @@ function CallOverview({ call }: { call: Call }) {
                 suggestedTasks.map((suggestedTask) => (
                   <SuggestedTaskItem
                     key={suggestedTask.id}
+                    callId={call.id}
                     suggestedTask={suggestedTask}
                     isAssigned={suggestedTasksMap[suggestedTask.id]}
                   />

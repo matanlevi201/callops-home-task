@@ -2,16 +2,21 @@ import type { SuggestedTask } from "@/api/suggested-tasks";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { PlusIcon } from "lucide-react";
+import useCallsMutations from "@/hooks/use-calls-mutations";
+import Loader from "@/components/loader";
 
 interface SuggestedTaskItemProps {
   suggestedTask: SuggestedTask;
   isAssigned: boolean;
+  callId: string;
 }
 
 function SuggestedTaskItem({
+  callId,
   suggestedTask,
   isAssigned = false,
 }: SuggestedTaskItemProps) {
+  const { addCallSuggestedTask } = useCallsMutations();
   return (
     <div
       key={suggestedTask.id}
@@ -41,8 +46,19 @@ function SuggestedTaskItem({
           <Button
             size="sm"
             className="bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white px-4 py-2 h-9"
+            onClick={async () =>
+              await addCallSuggestedTask.mutateAsync({
+                id: callId,
+                suggestedTaskId: suggestedTask.id,
+              })
+            }
+            disabled={addCallSuggestedTask.isPending}
           >
-            <PlusIcon className="h-3 w-3 mr-1" />
+            {addCallSuggestedTask.isPending ? (
+              <Loader />
+            ) : (
+              <PlusIcon className="h-3 w-3 mr-1" />
+            )}
             Add
           </Button>
         )}

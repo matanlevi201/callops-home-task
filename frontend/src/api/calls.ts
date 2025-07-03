@@ -20,6 +20,13 @@ export interface CreateCallBody {
   tagIds?: string[];
 }
 
+// Type guard to check if task is a SuggestedTask
+export const isSuggestedTask = (
+  task: Task | SuggestedTask
+): task is SuggestedTask => {
+  return "tags" in task;
+};
+
 const BASE_URL = "/api/calls";
 
 export const getCalls = async () => {

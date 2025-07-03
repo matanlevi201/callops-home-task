@@ -2,6 +2,7 @@ import { CallsApi, type Call, type CreateCallBody } from "@/api/calls";
 import { useSelectedCallStore } from "@/stores/use-selected-call-store";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { Tag } from "@/api/tags";
+import type { SuggestedTask } from "@/api/suggested-tasks";
 
 function useCallsMutations() {
   const queryClient = useQueryClient();
@@ -84,7 +85,51 @@ function useCallsMutations() {
     onSuccess: async () => {},
   });
 
-  return { createCall, addCallTag, removeCallTag, deleteCall };
+  const addCallSuggestedTask = useMutation({
+    mutationKey: ["add_call_suggested_task"],
+    mutationFn: async ({
+      id,
+      suggestedTaskId,
+    }: {
+      id: string;
+      suggestedTaskId: string;
+    }) => {
+      const updatedAt = await CallsApi.addCallSuggestedTask(
+        id,
+        suggestedTaskId
+      );
+      return { suggestedTaskId, updatedAt };
+    },
+    onSuccess: ({ suggestedTaskId, updatedAt }) => {
+      const suggestedTasks =
+        queryClient.getQueryData<SuggestedTask[]>(["get_suggested_tasks"]) ??
+        [];
+      const addedSuggestedTask = suggestedTasks.find(
+        (suggestedTask) => suggestedTask.id === suggestedTaskId
+      );
+      if (!addedSuggestedTask || !selectedCall) return;
+      const updatedCall = {
+        ...selectedCall,
+        updatedAt: new Date(updatedAt),
+        suggestedTasks: [addedSuggestedTask, ...selectedCall.suggestedTasks],
+      };
+      setSelectedCall(updatedCall);
+      queryClient.setQueryData<Call[]>(["get_calls"], (old) => {
+        const prevCalls = (old ?? []).filter(
+          (call) => call.id !== updatedCall.id
+        );
+        return [updatedCall, ...prevCalls];
+      });
+    },
+  });
+
+  return {
+    createCall,
+    addCallTag,
+    removeCallTag,
+    deleteCall,
+    addCallSuggestedTask,
+  };
 }
 
 export default useCallsMutations;

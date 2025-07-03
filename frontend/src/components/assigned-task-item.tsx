@@ -4,6 +4,7 @@ import TaskStatusInput from "./task-status-input";
 import Loader from "./loader";
 import type { SuggestedTask } from "@/api/suggested-tasks";
 import type { UseMutateAsyncFunction } from "@tanstack/react-query";
+import { isSuggestedTask } from "@/api/calls";
 
 interface AssignedTaskItemProps {
   task: Task | SuggestedTask;
@@ -25,11 +26,6 @@ interface AssignedTaskItemProps {
     isPending: boolean;
   };
 }
-
-// Type guard to check if task is a SuggestedTask
-const isSuggestedTask = (task: Task | SuggestedTask): task is SuggestedTask => {
-  return "tags" in task;
-};
 
 function AssignedTaskItem({ task, updateTask }: AssignedTaskItemProps) {
   return (
