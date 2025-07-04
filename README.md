@@ -6,7 +6,6 @@
     <td style="vertical-align: top; padding-left: 20px; border: none;">
       <p  style="border: none;">
         <strong>This is my submission for the full-stack developer home assignment.</strong><br />
-        It’s a streamlined internal platform for managing incoming calls and task assignments during emergencies, built for efficiency and clarity.
       </p>
     </td>
   </tr>
