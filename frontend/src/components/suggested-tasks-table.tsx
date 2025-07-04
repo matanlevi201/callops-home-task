@@ -24,7 +24,6 @@ interface SuggestedTasksTable {
 }
 
 function SuggestedTasksTable({ suggestedTasks }: SuggestedTasksTable) {
-  console.log("SuggestedTasksTable");
   const setActiveModal = useModalStore((state) => state.setActiveModal);
   const columns: ColumnDef<
     Pick<SuggestedTask, "id" | "description" | "tags">

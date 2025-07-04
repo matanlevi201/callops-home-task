@@ -6,7 +6,6 @@ import { PlusIcon } from "lucide-react";
 import useTagsMutations from "@/hooks/use-tags-mutations";
 
 function TagsAddInput() {
-  console.log("TagsAddInput");
   const [tag, setTag] = useState("");
   const { createTag } = useTagsMutations();
   return (

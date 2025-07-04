@@ -5,7 +5,6 @@ import { PhoneIcon } from "lucide-react";
 import { format } from "date-fns";
 
 function CallsListItem({ call }: { call: Call }) {
-  console.log("CallListItem");
   const selectedCall = useSelectedCallStore((state) => state.selectedCall);
   const setSelectedCall = useSelectedCallStore(
     (state) => state.setSelectedCall

@@ -57,7 +57,7 @@ function SuggestedTaskForm({
   if (isError) return;
 
   const tagsOptions = tags.map((tag) => ({ value: tag.id, label: tag.name }));
-  console.log("SuggestedTaskForm");
+  
   return (
     <Form {...form}>
       <form

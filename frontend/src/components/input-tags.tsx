@@ -42,7 +42,6 @@ function InputTags({
   tagsOptions,
   disabled,
 }: InputTagsProps) {
-  console.log("InputTags");
   const form = useFormContext();
   const [open, setOpen] = useState(false);
 

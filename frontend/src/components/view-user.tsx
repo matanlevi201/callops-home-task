@@ -6,7 +6,6 @@ import AppSidebar from "@/components/app-sidebar";
 import NewCallButton from "@/components/new-call-button";
 
 function ViewUser() {
-  console.log("ViewUser");
   const isMobile = useIsMobile();
   const selectedCall = useSelectedCallStore((state) => state.selectedCall);
 

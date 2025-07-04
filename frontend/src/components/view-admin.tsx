@@ -7,7 +7,6 @@ import SuggestedTasksTable from "@/components/suggested-tasks-table";
 import SuggestedTaskForm from "@/components/suggested-task-form";
 
 function ViewAdmin() {
-  console.log("ViewAdmin");
   const { data: suggestedTasks, isPending, isError } = useSuggestedTasksQuery();
 
   if (isPending) return <Loader />;

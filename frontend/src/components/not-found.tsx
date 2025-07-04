@@ -4,7 +4,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { HomeIcon, AlertTriangleIcon } from "lucide-react";
 
 function NotFound() {
-  console.log("NotFound");
   return (
     <div className="min-h-screen bg-gray-50 w-full">
       <div className="flex items-center justify-center min-h-[calc(100vh-80px)] p-6">

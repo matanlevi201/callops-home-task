@@ -62,7 +62,7 @@ function TagsTable() {
 
   if (isPending) return <Loader />;
   if (isError) return;
-  console.log("TagsTable");
+
   return (
     <div>
       <Table>

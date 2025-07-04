@@ -25,7 +25,6 @@ interface CallTagsInputProps {
 }
 
 function CallTagsInput({ selectedTags, onSelect }: CallTagsInputProps) {
-  console.log("CallTagsInput");
   const { data: tags = [], isError, isPending } = useTagsQuery();
 
   const [open, setOpen] = useState(false);

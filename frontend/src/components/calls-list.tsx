@@ -3,7 +3,6 @@ import useCallsQuery from "@/hooks/use-calls-query";
 import Loader from "@/components/loader";
 
 function CallsList() {
-  console.log("CallList");
   const { data: calls, isError, isPending } = useCallsQuery();
 
   if (isPending) return <Loader />;

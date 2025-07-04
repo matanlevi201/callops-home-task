@@ -22,7 +22,6 @@ function AppLayout() {
     navigate(isAdmin ? "/user" : "/admin");
   };
 
-  console.log("AppLayout");
 
   return (
     <Sheet>

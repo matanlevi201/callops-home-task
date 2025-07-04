@@ -22,7 +22,6 @@ import useSuggestedTasksQuery from "@/hooks/use-suggested-tasks-query";
 import useSuggestedTasksMutations from "@/hooks/use-suggested-tasks-mutations";
 
 function CallOverview({ call }: { call: Call }) {
-  console.log("CallOverview");
   const { addCallTag, removeCallTag } = useCallsMutations();
   const { updateTask } = useTasksMutations();
   const { updateSuggestedTaskStatus } = useSuggestedTasksMutations();

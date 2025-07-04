@@ -31,7 +31,6 @@ function formatEnumLabel(value: string): string {
     .join(" ");
 }
 function TaskStatusInput({ selectedStatus, onSelect }: TaskStatusInputProps) {
-  console.log("TaskStatusInput");
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(selectedStatus);
   const statuses = Object.values(TaskStatus);
