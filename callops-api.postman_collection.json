@@ -1,0 +1,464 @@
+{
+	"info": {
+		"_postman_id": "50a6cc7c-6d8a-4ef7-8e08-5fdc26bbaa79",
+		"name": "callops-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "calls",
+			"item": [
+				{
+					"name": "create-call",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Call 1\",\r\n    \"tagIds\": [\"d77ea62a-6b16-4a37-97d5-672e7797a041\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{address}}/api/calls",
+							"protocol": "http",
+							"host": [
+								"{{address}}"
+							],
+							"path": [
+								"api",
+								"calls"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-calls",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{address}}/api/calls",
+							"protocol": "http",
+							"host": [
+								"{{address}}"
+							],
+							"path": [
+								"api",
+								"calls"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add-call-tag",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"tagId\": \"d77ea62a-6b16-4a37-97d5-672e7797a041\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{address}}/api/calls/tags/aad17c01-ffda-4cff-835a-d33604daad76",
+							"protocol": "http",
+							"host": [
+								"{{address}}"
+							],
+							"path": [
+								"api",
+								"calls",
+								"tags",
+								"aad17c01-ffda-4cff-835a-d33604daad76"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "remove-call-tag",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"tagId\": \"d77ea62a-6b16-4a37-97d5-672e7797a041\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{address}}/api/calls/tags/aad17c01-ffda-4cff-835a-d33604daad76",
+							"protocol": "http",
+							"host": [
+								"{{address}}"
+							],
+							"path": [
+								"api",
+								"calls",
+								"tags",
+								"aad17c01-ffda-4cff-835a-d33604daad76"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete-call",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://{{address}}/api/calls/2b3226ae-5743-4322-a99e-fd8e613a2038",
+							"protocol": "http",
+							"host": [
+								"{{address}}"
+							],
+							"path": [
+								"api",
+								"calls",
+								"2b3226ae-5743-4322-a99e-fd8e613a2038"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add-suggested-task",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"suggestedTaskId\": \"2bcc1350-19cf-4264-8717-e40b266e17a6\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{address}}/api/calls/suggested-tasks/7406fd40-ee69-42b0-8161-45abfd04595f",
+							"protocol": "http",
+							"host": [
+								"{{address}}"
+							],
+							"path": [
+								"api",
+								"calls",
+								"suggested-tasks",
+								"7406fd40-ee69-42b0-8161-45abfd04595f"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "tags",
+			"item": [
+				{
+					"name": "create-tag",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Tag 1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{address}}/api/tags",
+							"protocol": "http",
+							"host": [
+								"{{address}}"
+							],
+							"path": [
+								"api",
+								"tags"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-tags",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{address}}/api/tags",
+							"protocol": "http",
+							"host": [
+								"{{address}}"
+							],
+							"path": [
+								"api",
+								"tags"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete-tag",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://{{address}}/api/tags/6bed43ff-57cc-4589-9e6d-b2bc81b05708",
+							"protocol": "http",
+							"host": [
+								"{{address}}"
+							],
+							"path": [
+								"api",
+								"tags",
+								"6bed43ff-57cc-4589-9e6d-b2bc81b05708"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update-tag",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Updated Tag 2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{address}}/api/tags/d77ea62a-6b16-4a37-97d5-672e7797a041",
+							"protocol": "http",
+							"host": [
+								"{{address}}"
+							],
+							"path": [
+								"api",
+								"tags",
+								"d77ea62a-6b16-4a37-97d5-672e7797a041"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "tasks",
+			"item": [
+				{
+					"name": "get-tasks",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{address}}/api/tasks",
+							"protocol": "http",
+							"host": [
+								"{{address}}"
+							],
+							"path": [
+								"api",
+								"tasks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create-task",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"callId\": \"af22d32b-911d-48af-affd-c6e652108605\",\r\n    \"description\": \"aaaa\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{address}}/api/tasks",
+							"protocol": "http",
+							"host": [
+								"{{address}}"
+							],
+							"path": [
+								"api",
+								"tasks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update-task",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\": \"IN_PROGRESS\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{address}}/api/tasks/076b01b9-82b4-4449-91ed-655b365d63c6",
+							"protocol": "http",
+							"host": [
+								"{{address}}"
+							],
+							"path": [
+								"api",
+								"tasks",
+								"076b01b9-82b4-4449-91ed-655b365d63c6"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "suggested-tasks",
+			"item": [
+				{
+					"name": "get-suggested-tasks",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{address}}/api/suggested-tasks",
+							"protocol": "http",
+							"host": [
+								"{{address}}"
+							],
+							"path": [
+								"api",
+								"suggested-tasks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create-suggested-task",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\": \"Suggested Task #1\",\r\n    \"tagIds\": [\"d77ea62a-6b16-4a37-97d5-672e7797a041\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{address}}/api/suggested-tasks",
+							"protocol": "http",
+							"host": [
+								"{{address}}"
+							],
+							"path": [
+								"api",
+								"suggested-tasks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update-suggested-task",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\": \"IN_PROGRESS\",\r\n    \"callId\": \"47d27c0e-a324-4a33-84b2-9815e3c9ed54\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{address}}/api/suggested-tasks/status/0681d17c-ae2b-41b9-8aeb-84924309cfd7",
+							"protocol": "http",
+							"host": [
+								"{{address}}"
+							],
+							"path": [
+								"api",
+								"suggested-tasks",
+								"status",
+								"0681d17c-ae2b-41b9-8aeb-84924309cfd7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update-suggested-task Copy",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\": \"Changed description\",\r\n    \"tagIds\": [\"47d27c0e-a324-4a33-84b2-9815e3c9ed54\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{address}}/api/suggested-tasks/0681d17c-ae2b-41b9-8aeb-84924309cfd7",
+							"protocol": "http",
+							"host": [
+								"{{address}}"
+							],
+							"path": [
+								"api",
+								"suggested-tasks",
+								"0681d17c-ae2b-41b9-8aeb-84924309cfd7"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
