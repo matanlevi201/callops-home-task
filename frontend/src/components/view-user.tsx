@@ -12,7 +12,7 @@ function ViewUser() {
   return (
     <div className="container max-w-7xl mx-auto flex gap-6 p-6 h-[calc(100vh-65px)]">
       {isMobile ? null : <AppSidebar />}
-      <div className="flex flex-col">
+      <div className="w-full flex flex-col">
         {isMobile && selectedCall && <NewCallButton />}
         <div className="w-full h-full overflow-auto">
           {selectedCall ? (
