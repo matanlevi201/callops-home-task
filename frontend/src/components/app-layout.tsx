@@ -10,6 +10,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { ToastContainer } from "react-toastify";
 
 function AppLayout() {
   const location = useLocation();
@@ -52,13 +53,13 @@ function AppLayout() {
               onClick={toggleMode}
               className="ml-auto hover:bg-primary/90 hover:text-white"
             >
-              {isMobile ? <ArrowLeftRightIcon /> : "Switch to"}{" "}
-              {isAdmin ? "User" : "Admin"} Mode
+              <ArrowLeftRightIcon /> {isAdmin ? "Admin" : "User"} Mode
             </Button>
           </div>
         </div>
         <main className="flex flex-1 bg-gray-50">
           <Outlet />
+          <ToastContainer position="bottom-right" />
         </main>
       </div>
       <SheetContent side="left" className="overflow-auto w-[300px] gap-0">

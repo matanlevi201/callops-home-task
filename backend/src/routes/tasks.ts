@@ -8,7 +8,7 @@ const router = Router();
 
 const CreateTaskSchema = z.object({
   callId: z.string(),
-  description: z.string().min(5, "Description is too short."),
+  description: z.string().min(5),
 });
 
 const UpdateTaskSchema = z.object({

@@ -12,7 +12,7 @@ import { TaskStatus } from "@prisma/client";
 const router = Router();
 
 const CreateSuggestedTaskSchema = z.object({
-  description: z.string().min(5, "Description is too short."),
+  description: z.string().min(5),
   tagIds: z.array(z.string()),
 });
 
